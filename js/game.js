@@ -3,8 +3,7 @@ class Game{
 
     }
     getState() {
-        var gameStateRef = database.ref('gameState');
-        gameStateRef.on("value", function (data) {
+        var gameStateRef = database.ref('gameState').on("value", (data)=> {
             gameState = data.val();
         })
 
@@ -52,8 +51,8 @@ class Game{
                      x = 500-allPlayers[plr].distance;
                      y=500;
                      
-                     players[index -1].x = x;
-                     players[index - 1].y = y;
+                     players[index-1].x = x;
+                     players[index-1].y = y;
                        
                      if(index === player.index){
                          
@@ -74,11 +73,11 @@ class Game{
                 
                  
 
-                if (keyIsDown(RIGHT_ARROW) && player.index !== null) {
+                if (keyDown(RIGHT_ARROW) && player.index !== null) {
                     player.distance -= 10
                     player.update();
                 }
-                if (keyIsDown(LEFT_ARROW) && player.index !== null) {
+                if (keyDown(LEFT_ARROW) && player.index !== null) {
                     player.distance += 10
                     player.update();
                 }
