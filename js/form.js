@@ -40,8 +40,14 @@ class Form{
             player.updateCount(0);
             game.update(0);
             database.ref('players').set({
-                players:null
+                players:null,
+                
             })
+
+            database.ref('/').update({
+                finishedPlayer: 0
+            })
+
         });
 
     }

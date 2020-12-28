@@ -20,8 +20,8 @@ class Game{
                 var playerCountRef = await database.ref('playerCount').once("value");
                 if (playerCountRef.exists()) {
                     playerCount = playerCountRef.val();
-                    player.getCount();
                 }
+                player.getCount();
                 form = new Form()
                 form.display();
             }
@@ -31,7 +31,7 @@ class Game{
     player2 = createSprite(800,500);
     player2.addImage("player2", player_img);
     players=[player1,player2];
-
+    passedFinish = false;
         }
     
     play(){
@@ -39,6 +39,7 @@ class Game{
                 form.hide();
 
                 Player.getPlayerInfo();
+                player.getFinishedPlayer();
                  image(back_img, 0, 0, 1000, 800);
                  var x =100;
                  var y=200;
@@ -113,14 +114,46 @@ class Game{
                           
                       }
                   }
-                
+                  if(player.score === 5 && passedFinish === false) {
+                      Player.updateFinishedPlayer();
+                      console.log("finished player"  + finishedPlayer)
+                      player.rank = finishedPlayer
+                      player.update(); 
+                      fruitGroup.setVelocityYEach(0)
+                      fruitGroup.destroyEach();
+                      passedFinish = true
+                  }
 
-         
-         
-        
-         
-
+                  else if(player.score === 5 && passedFinish === true) {
+                    fruitGroup.setVelocityYEach(0)
+                    fruitGroup.destroyEach();
+                  }
     }
+
+    displayRank() {
+        imageMode(CENTER);
+        Player.getPlayerInfo();
+        image(goldImg,400, 400,250,300)
+        image(silverImg, 200, 400, 250,300)
+        textAlign(CENTER);
+        textSize(30)
+        for(var plr in allPlayers){
+            if(allPlayers[plr].rank === 1) {
+                fill("white");
+                textSize()
+                textAlign(CENTER)
+                text("First: " + allPlayers[plr].name,400 ,150)
+                console.log("hi")
+            }
+
+            else {
+                fill("white");
+                text("Second: "+allPlayers[plr].name,200, 150)
+                console.log("second");
+            }
+        }
+    }
+
 
     end(){
        console.log("Game Ended");
